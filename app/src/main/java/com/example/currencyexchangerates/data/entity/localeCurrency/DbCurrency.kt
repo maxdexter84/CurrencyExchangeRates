@@ -8,7 +8,6 @@ data class DbCurrency(
     val nominal : Int,
     val name : String,
     val value : Double,
-    val previous : Double,
-    val bookmark: Boolean
+    val previous : Double
 )
 
