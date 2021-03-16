@@ -1,14 +1,11 @@
-package com.example.currencyexchangerates.data.entity.localeCurrency
+package com.example.currencyexchangerates.ui.entity
 
-data class dbCurrency(
+data class UICurrency(
     val iD : String,
     val date : String,
-    val numCode : Int,
     val charCode : String,
     val nominal : Int,
     val name : String,
     val value : Double,
-    val previous : Double,
     val bookmark: Boolean
-)
-
+    )
