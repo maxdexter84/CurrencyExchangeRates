@@ -1,6 +1,6 @@
 package com.example.currencyexchangerates.data.entity.localeCurrency
 
-data class dbCurrency(
+data class DbCurrency(
     val iD : String,
     val date : String,
     val numCode : Int,
