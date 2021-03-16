@@ -1,4 +1,4 @@
-package com.example.currencyexchangerates.ui.bookmark
+package com.example.currencyexchangerates.ui.fragments.bookmark
 
 import android.os.Bundle
 import android.view.LayoutInflater

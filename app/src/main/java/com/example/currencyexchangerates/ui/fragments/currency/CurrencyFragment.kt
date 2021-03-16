@@ -1,4 +1,4 @@
-package com.example.currencyexchangerates.ui.settings
+package com.example.currencyexchangerates.ui.fragments.currency
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,22 +10,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.currencyexchangerates.R
-import com.example.currencyexchangerates.databinding.FragmentSettingsBinding
+import com.example.currencyexchangerates.databinding.FragmentCurrencyListBinding
 
-class SettingsFragment : Fragment() {
+class CurrencyFragment : Fragment() {
 
-    private val settingsViewModel: SettingsViewModel by lazy {
-        ViewModelProvider(this).get(SettingsViewModel::class.java)
+    private val currencyViewModel: CurrencyViewModel by lazy {
+        ViewModelProvider(this).get(CurrencyViewModel::class.java)
     }
-    private lateinit var binding: FragmentSettingsBinding
-
+    private lateinit var binding: FragmentCurrencyListBinding
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
 
-        binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_settings, container, false)
+       binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_currency_list, container, false)
+
 
         return binding.root
     }

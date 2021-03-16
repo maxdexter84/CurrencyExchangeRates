@@ -1,4 +1,4 @@
-package com.example.currencyexchangerates.ui.settings
+package com.example.currencyexchangerates.ui.fragments.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
