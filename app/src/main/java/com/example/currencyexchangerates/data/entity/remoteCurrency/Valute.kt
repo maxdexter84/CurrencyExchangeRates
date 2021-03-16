@@ -1,0 +1,40 @@
+package com.example.currencyexchangerates.data.entity.remoteCurrency
+
+
+
+data class Valute (
+    val aUD : AUD,
+    val aZN : AZN,
+    val gBP : GBP,
+    val aMD : AMD,
+    val bYN : BYN,
+    val bGN : BGN,
+    val bRL : BRL,
+    val hUF : HUF,
+    val hKD : HKD,
+    val dKK : DKK,
+    val uSD : USD,
+    val eUR : EUR,
+    val iNR : INR,
+    val kZT : KZT,
+    val cAD : CAD,
+    val kGS : KGS,
+    val cNY : CNY,
+    val mDL : MDL,
+    val nOK : NOK,
+    val pLN : PLN,
+    val rON : RON,
+    val xDR : XDR,
+    val sGD : SGD,
+    val tJS : TJS,
+    val tRY : TRY,
+    val tMT : TMT,
+    val uZS : UZS,
+    val uAH : UAH,
+    val cZK : CZK,
+    val sEK : SEK,
+    val cHF : CHF,
+    val zAR : ZAR,
+    val kRW : KRW,
+    val jPY : JPY
+)
