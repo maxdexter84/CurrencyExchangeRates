@@ -4,16 +4,16 @@
     <item
         android:id="@+id/currencyFragment"
         android:icon="@drawable/ic_baseline_format_list_bulleted_24"
-        android:title="@string/title_home" />
+        android:title="@string/title_currency_list" />
 
     <item
         android:id="@+id/bookmarkFragment"
         android:icon="@drawable/ic_baseline_bookmarks_24"
-        android:title="@string/title_dashboard" />
+        android:title="@string/title_bookmarks" />
 
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_baseline_settings_24"
-        android:title="@string/title_notifications" />
+        android:title="@string/title_settings" />
 
 </menu>
