@@ -1,11 +1,11 @@
 package com.example.currencyexchangerates.data.entity.remoteCurrency
 
-data class UZS (
-	val iD : String,
-	val numCode : Int,
-	val charCode : String,
-	val nominal : Int,
-	val name : String,
-	val value : Double,
-	val previous : Double
+data class UZS(
+    val CharCode: String,
+    val ID: String,
+    val Name: String,
+    val Nominal: Int,
+    val NumCode: String,
+    val Previous: Double,
+    val Value: Double
 )

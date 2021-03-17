@@ -1,5 +1,6 @@
 package com.example.currencyexchangerates.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,9 @@ class CurrencyViewHolder(private val binding: ItemCurrencyBinding): RecyclerView
     fun bind(item: UICurrency){
         binding.currency = item
         binding.executePendingBindings()
+        binding.setClickListener {
+            Log.i("ADAPTER", "click")
+        }
     }
 
     companion object{

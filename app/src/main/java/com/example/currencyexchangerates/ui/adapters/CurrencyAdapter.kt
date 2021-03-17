@@ -6,15 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import com.example.currencyexchangerates.ui.entity.UICurrency
 import androidx.recyclerview.widget.ListAdapter
 
-class CurrencyAdapter(private val itemListener: ItemListener): ListAdapter<UICurrency,CurrencyViewHolder>(DiffCallback()) {
+class CurrencyAdapter: ListAdapter<UICurrency,CurrencyViewHolder>(DiffCallback()) {
 
-    interface ItemListener{
-        fun click(uuid: String)
-    }
+    
 
     class DiffCallback : DiffUtil.ItemCallback<UICurrency>() {
         override fun areItemsTheSame(oldItem: UICurrency, newItem: UICurrency): Boolean {
-            return  oldItem.iD == newItem.iD
+            return  oldItem.id == newItem.id
         }
         override fun areContentsTheSame(oldItem: UICurrency, newItem: UICurrency): Boolean {
             return oldItem == newItem

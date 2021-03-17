@@ -1,10 +1,9 @@
 package com.example.currencyexchangerates.data.entity.remoteCurrency
 
-data class ResponseCBR (
-
-	val date : String,
-	val previousDate : String,
-	val previousURL : String,
-	val timestamp : String,
-	val valute : Valute
+data class ResponseCBR(
+    val Date: String,
+    val PreviousDate: String,
+    val PreviousURL: String,
+    val Timestamp: String,
+    val Valute: Valute
 )
