@@ -8,11 +8,9 @@ data class DbCurrency(
     @PrimaryKey
     val id : String,
     val date : String,
-    val numCode : Int,
     val charCode : String,
-    val nominal : Int,
+    val nominal : String,
     val name : String,
-    val value : Double,
-    val previous : Double
+    val value : String,
 )
 

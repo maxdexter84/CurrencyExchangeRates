@@ -8,15 +8,13 @@ import kotlinx.coroutines.flow.Flow
 interface CurrencyDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveCurrency(currency: DbCurrency)
+    suspend fun saveCurrency(vararg currencies: DbCurrency) 
 
     @Query("SELECT * FROM currency")
     fun getCurrencies(): Flow<List<DbCurrency>>
 
-    @Transaction
-    suspend fun saveCurrenciesList(list: List<DbCurrency>){
-        for (dbCurrency in list) {
-            saveCurrency(dbCurrency)
-        }
-    }
+//    @Transaction
+//    suspend fun saveCurrenciesList(list: List<DbCurrency>){
+//        list.forEach { saveCurrency(it) }
+//    }
 }

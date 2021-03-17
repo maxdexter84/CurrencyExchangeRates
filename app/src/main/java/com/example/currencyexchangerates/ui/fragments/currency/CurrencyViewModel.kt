@@ -21,7 +21,9 @@ class CurrencyViewModel(private val repository: IRepository) : ViewModel() {
 
     private fun getData() {
         viewModelScope.launch {
-            _currencyList.value = repository.getData()
+            repository.getData().collect {
+                _currencyList.value = it
+            }
         }
 
     }

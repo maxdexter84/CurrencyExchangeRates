@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
 class LocalDataSourceImpl(private val bookmarkDao: BookmarkDao, private val currencyDao: CurrencyDao): ILocalDataSource {
-    override  fun getData(): Flow<List<DbCurrency>> = flow {
-        currencyDao.getCurrencies().flowOn(Dispatchers.IO)
+    override  fun getData(): Flow<List<DbCurrency>>  {
+      return currencyDao.getCurrencies().flowOn(Dispatchers.IO)
     }
 
     override suspend fun saveData(currencies: List<DbCurrency>) {
         withContext(Dispatchers.IO){
-            currencyDao.saveCurrenciesList(currencies)
+            currencyDao.saveCurrency(*currencies.toTypedArray())
         }
     }
 
