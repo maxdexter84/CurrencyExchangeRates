@@ -1,7 +1,10 @@
 package com.example.currencyexchangerates.domen.common
 
-sealed class LoadingResponse{
-    data class Success <T>(val data: T): LoadingResponse()
-    data class Failure(val message: String): LoadingResponse()
+import com.example.currencyexchangerates.data.entity.remoteCurrency.ResponseCBR
+
+sealed class LoadingResponse {
+    data class Success ( val data: ResponseCBR? = null): LoadingResponse()
+    data class Failure(val error: String): LoadingResponse()
+
 }
 

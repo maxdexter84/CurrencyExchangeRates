@@ -7,5 +7,4 @@ data class UICurrency(
     val nominal : Int,
     val name : String,
     val value : Double,
-    val bookmark: Boolean
     )
