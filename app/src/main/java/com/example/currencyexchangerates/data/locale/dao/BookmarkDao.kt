@@ -1,9 +1,11 @@
-package com.example.currencyexchangerates.data.locale
+package com.example.currencyexchangerates.data.locale.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.Query
 import com.example.currencyexchangerates.data.entity.localeCurrency.Bookmark
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BookmarkDao {
@@ -13,4 +15,7 @@ interface BookmarkDao {
 
     @Delete
     suspend fun deleteBookmark(bookmark: Bookmark)
+
+    @Query("SELECT * FROM bookmark")
+    fun getBookmarks(): Flow<List<Bookmark>>
 }

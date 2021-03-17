@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.currencyexchangerates.R
+import com.example.currencyexchangerates.data.locale.AppDatabase
 import com.example.currencyexchangerates.data.locale.ILocalDataSource
 import com.example.currencyexchangerates.data.locale.LocalDataSourceImpl
 import com.example.currencyexchangerates.data.remote.CurrencyApi
@@ -24,7 +25,9 @@ class CurrencyFragment : Fragment() {
     
     private val repository: IRepository by lazy {
         val remoteSource: IRemoteDataSource = RemoteDataSourceImpl(CurrencyApi.currencyService)
-        val localSource: ILocalDataSource = LocalDataSourceImpl()
+        val localSource: ILocalDataSource = LocalDataSourceImpl(
+            AppDatabase.invoke(requireContext()).getBookmarkDao(),
+            AppDatabase.invoke(requireContext()).getCurrencyDao())
         RepositoryImpl(remoteSource,localSource)
     }
     private val currencyViewModel: CurrencyViewModel by lazy {

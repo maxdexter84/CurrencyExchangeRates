@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.currencyexchangerates.data.entity.localeCurrency.Bookmark
 import com.example.currencyexchangerates.data.entity.localeCurrency.DbCurrency
+import com.example.currencyexchangerates.data.locale.dao.BookmarkDao
+import com.example.currencyexchangerates.data.locale.dao.CurrencyDao
 
 @Database(entities = [DbCurrency::class,Bookmark::class],version = 1,exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {

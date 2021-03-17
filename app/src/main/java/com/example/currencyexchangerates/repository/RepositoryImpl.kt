@@ -17,6 +17,7 @@ class RepositoryImpl(private val remoteSource: IRemoteDataSource, private val lo
     override suspend fun getData(): List<UICurrency>? {
          return when(val res = remoteSource.getDataAsync()){
              is LoadingResponse.Success -> {
+
                  res.data?.mapToUICurrency() 
              }
              is LoadingResponse.Failure -> {

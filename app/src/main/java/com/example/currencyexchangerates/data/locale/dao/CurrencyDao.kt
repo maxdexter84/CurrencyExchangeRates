@@ -1,4 +1,4 @@
-package com.example.currencyexchangerates.data.locale
+package com.example.currencyexchangerates.data.locale.dao
 
 import androidx.room.*
 import com.example.currencyexchangerates.data.entity.localeCurrency.DbCurrency
