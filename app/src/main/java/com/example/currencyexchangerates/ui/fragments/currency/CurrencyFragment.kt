@@ -1,5 +1,6 @@
 package com.example.currencyexchangerates.ui.fragments.currency
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +23,6 @@ import com.example.currencyexchangerates.ui.adapters.CurrencyAdapter
 
 class CurrencyFragment : Fragment() {
 
-    
     private val repository: IRepository by lazy {
         val remoteSource: IRemoteDataSource = RemoteDataSourceImpl(CurrencyApi.currencyService)
         val localSource: ILocalDataSource = LocalDataSourceImpl(
@@ -30,24 +30,32 @@ class CurrencyFragment : Fragment() {
             AppDatabase.invoke(requireContext()).getCurrencyDao())
         RepositoryImpl(remoteSource,localSource)
     }
+
     private val currencyViewModel: CurrencyViewModel by lazy {
         ViewModelProvider(this, CurrencyFragmentViewModelFactory(repository)).get(CurrencyViewModel::class.java)
     }
+
     private val currencyAdapter: CurrencyAdapter by lazy {
         CurrencyAdapter()
     }
-    private lateinit var binding: FragmentCurrencyListBinding
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View {
 
+    private lateinit var binding: FragmentCurrencyListBinding
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_currency_list, container, false)
 
+        initSwipeRefresh()
         initRecycler()
-
         return binding.root
+    }
+    @SuppressLint("ResourceAsColor")
+    private fun initSwipeRefresh() {
+        binding.swipeRefresh.setProgressBackgroundColorSchemeColor(R.color.purple_200)
+        binding.swipeRefresh.setOnRefreshListener {
+            currencyViewModel.getData()
+            binding.swipeRefresh.isRefreshing = false
+        }
     }
 
     private fun initRecycler() {

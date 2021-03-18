@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.currencyexchangerates.repository.IRepository
 import com.example.currencyexchangerates.ui.entity.UICurrency
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -19,9 +20,11 @@ class CurrencyViewModel(private val repository: IRepository) : ViewModel() {
         getData()
     }
 
-    private fun getData() {
+     fun getData() {
+         _currencyList.value = emptyList()
         viewModelScope.launch {
             repository.getData().collect {
+                delay(100)
                 _currencyList.value = it
             }
         }
