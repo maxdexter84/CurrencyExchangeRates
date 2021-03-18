@@ -10,6 +10,7 @@ import com.example.currencyexchangerates.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+
     private val navController: NavController by lazy {
         val navHostFragment =  supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navHostFragment.navController
@@ -20,7 +21,5 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
 
 
-
-        binding.navView.setupWithNavController(navController)
     }
 }

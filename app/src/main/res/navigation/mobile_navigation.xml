@@ -13,14 +13,6 @@
             app:destination="@id/calculatorDialogFragment" />
     </fragment>
     <fragment
-        android:id="@+id/bookmarkFragment"
-        android:name="com.example.currencyexchangerates.ui.fragments.bookmark.BookmarkFragment"
-        android:label="BookmarkFragment" />
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.currencyexchangerates.ui.fragments.settings.SettingsFragment"
-        android:label="SettingsFragment" />
-    <fragment
         android:id="@+id/calculatorDialogFragment"
         android:name="com.example.currencyexchangerates.ui.fragments.calculator.CalculatorDialogFragment"
         android:label="CalculatorDialogFragment" >
