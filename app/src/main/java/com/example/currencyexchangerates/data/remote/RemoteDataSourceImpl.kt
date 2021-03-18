@@ -1,7 +1,7 @@
 package com.example.currencyexchangerates.data.remote
 
 import com.example.currencyexchangerates.data.entity.ext.mapToDbCurrency
-import com.example.currencyexchangerates.domen.common.LoadingResponse
+import com.example.currencyexchangerates.data.LoadingResponse
 import java.io.IOException
 
 

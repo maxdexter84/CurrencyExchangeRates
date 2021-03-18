@@ -1,14 +1,12 @@
 package com.example.currencyexchangerates.repository
 
-import com.example.currencyexchangerates.data.entity.ext.mapToDbCurrency
 import com.example.currencyexchangerates.data.entity.ext.mapToUICurrency
 import com.example.currencyexchangerates.data.entity.localeCurrency.Bookmark
 import com.example.currencyexchangerates.data.entity.localeCurrency.DbCurrency
 import com.example.currencyexchangerates.data.locale.ILocalDataSource
 import com.example.currencyexchangerates.data.remote.IRemoteDataSource
-import com.example.currencyexchangerates.domen.common.LoadingResponse
+import com.example.currencyexchangerates.data.LoadingResponse
 import com.example.currencyexchangerates.ui.entity.UICurrency
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 class RepositoryImpl(private val remoteSource: IRemoteDataSource, private val localSource: ILocalDataSource): IRepository {

@@ -1,4 +1,4 @@
-package com.example.currencyexchangerates.domen.common
+package com.example.currencyexchangerates.data
 
 import com.example.currencyexchangerates.data.entity.localeCurrency.DbCurrency
 
