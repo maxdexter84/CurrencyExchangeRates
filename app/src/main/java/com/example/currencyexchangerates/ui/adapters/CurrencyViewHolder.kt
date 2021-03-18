@@ -3,16 +3,18 @@ package com.example.currencyexchangerates.ui.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyexchangerates.databinding.ItemCurrencyBinding
 import com.example.currencyexchangerates.ui.entity.UICurrency
+import com.example.currencyexchangerates.ui.fragments.currency.CurrencyFragmentDirections
 
 class CurrencyViewHolder(private val binding: ItemCurrencyBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(item: UICurrency){
         binding.currency = item
         binding.executePendingBindings()
         binding.setClickListener {
-            Log.i("ADAPTER", "click")
+           it.findNavController().navigate(CurrencyFragmentDirections.actionCurrencyFragmentToCalculatorDialogFragment(item))
         }
     }
 

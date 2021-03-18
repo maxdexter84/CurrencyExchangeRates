@@ -1,32 +1,34 @@
 package com.example.currencyexchangerates.repository
 
+import com.example.currencyexchangerates.data.entity.ext.mapToDbCurrency
 import com.example.currencyexchangerates.data.entity.ext.mapToUICurrency
 import com.example.currencyexchangerates.data.entity.localeCurrency.Bookmark
+import com.example.currencyexchangerates.data.entity.localeCurrency.DbCurrency
 import com.example.currencyexchangerates.data.locale.ILocalDataSource
 import com.example.currencyexchangerates.data.remote.IRemoteDataSource
 import com.example.currencyexchangerates.domen.common.LoadingResponse
 import com.example.currencyexchangerates.ui.entity.UICurrency
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 
 class RepositoryImpl(private val remoteSource: IRemoteDataSource, private val localSource: ILocalDataSource): IRepository {
 
-    override suspend fun getData(): List<UICurrency>? {
-         return when(val res = remoteSource.getDataAsync()){
+    override suspend fun getData(): Flow<List<UICurrency>>  {
+       return when(val res = remoteSource.getDataAsync()){
              is LoadingResponse.Success -> {
-                 res.data?.mapToUICurrency() 
+                 val arr = res.data
+                 saveData(arr)
+                 localSource.getData().map { it.map { dbCurrency -> dbCurrency.mapToUICurrency() } }
              }
              is LoadingResponse.Failure -> {
-                 emptyList()
+                localSource.getData().map { it.map { dbCurrency -> dbCurrency.mapToUICurrency() } }
              }
          }
     }
 
-    override suspend fun saveData(currency: UICurrency) {
-        TODO("Not yet implemented")
+    override suspend fun saveData(list: List<DbCurrency>?) {
+            if (list != null)
+            localSource.saveData(list)
     }
 
     override suspend fun getBookmark(): Flow<List<Bookmark>> {

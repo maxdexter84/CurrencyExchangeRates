@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/currencyFragment"
         android:name="com.example.currencyexchangerates.ui.fragments.currency.CurrencyFragment"
-        android:label="CurrencyFragment" />
+        android:label="CurrencyFragment" >
+        <action
+            android:id="@+id/action_currencyFragment_to_calculatorDialogFragment"
+            app:destination="@id/calculatorDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bookmarkFragment"
         android:name="com.example.currencyexchangerates.ui.fragments.bookmark.BookmarkFragment"
@@ -16,4 +20,12 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.currencyexchangerates.ui.fragments.settings.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/calculatorDialogFragment"
+        android:name="com.example.currencyexchangerates.ui.fragments.calculator.CalculatorDialogFragment"
+        android:label="CalculatorDialogFragment" >
+        <argument
+            android:name="uiCurrency"
+            app:argType="com.example.currencyexchangerates.ui.entity.UICurrency" />
+    </fragment>
 </navigation>
