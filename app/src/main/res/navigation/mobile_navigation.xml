@@ -10,12 +10,12 @@
         android:label="CurrencyFragment" >
         <action
             android:id="@+id/action_currencyFragment_to_calculatorDialogFragment"
-            app:destination="@id/calculatorDialogFragment" />
+            app:destination="@id/calculatorFragment" />
     </fragment>
     <fragment
-        android:id="@+id/calculatorDialogFragment"
-        android:name="com.example.currencyexchangerates.ui.fragments.calculator.CalculatorDialogFragment"
-        android:label="CalculatorDialogFragment" >
+        android:id="@+id/calculatorFragment"
+        android:name="com.example.currencyexchangerates.ui.fragments.calculator.CalculatorFragment"
+        android:label="CalculatorFragment" >
         <argument
             android:name="uiCurrency"
             app:argType="com.example.currencyexchangerates.ui.entity.UICurrency" />

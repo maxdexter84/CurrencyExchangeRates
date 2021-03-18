@@ -61,7 +61,7 @@ class CurrencyFragment : Fragment() {
         initRecycler()
 
 
-       // binding.toolbar.setNavigationOnClickListener()
+
 
 
 

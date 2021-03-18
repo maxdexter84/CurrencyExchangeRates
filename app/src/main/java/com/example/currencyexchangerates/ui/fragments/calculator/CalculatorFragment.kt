@@ -6,29 +6,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.currencyexchangerates.R
-import com.example.currencyexchangerates.databinding.FragmentCalculatorDialogBinding
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.example.currencyexchangerates.databinding.FragmentCalculatorBinding
 
 
-class CalculatorDialogFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: FragmentCalculatorDialogBinding
+class CalculatorFragment : Fragment() {
+
+    private lateinit var binding: FragmentCalculatorBinding
 
     private val viewModel: CalculatorViewModel by lazy {
         ViewModelProvider(this).get(CalculatorViewModel::class.java)
     }
 
-    private val args: CalculatorDialogFragmentArgs? by lazy {
-        arguments?.let { CalculatorDialogFragmentArgs.fromBundle(it) }
+    private val args: CalculatorFragmentArgs? by lazy {
+        arguments?.let { CalculatorFragmentArgs.fromBundle(it) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_calculator_dialog,container, false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_calculator,container, false)
 
-
+        binding.toolbar2.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
         initCalculate()
         initTV()
         return binding.root
