@@ -20,6 +20,8 @@ import com.example.currencyexchangerates.databinding.FragmentCurrencyListBinding
 import com.example.currencyexchangerates.repository.IRepository
 import com.example.currencyexchangerates.repository.RepositoryImpl
 import com.example.currencyexchangerates.ui.adapters.CurrencyAdapter
+import com.google.android.material.appbar.AppBarLayout
+
 
 class CurrencyFragment : Fragment() {
 
@@ -27,8 +29,9 @@ class CurrencyFragment : Fragment() {
         val remoteSource: IRemoteDataSource = RemoteDataSourceImpl(CurrencyApi.currencyService)
         val localSource: ILocalDataSource = LocalDataSourceImpl(
             AppDatabase.invoke(requireContext()).getBookmarkDao(),
-            AppDatabase.invoke(requireContext()).getCurrencyDao())
-        RepositoryImpl(remoteSource,localSource)
+            AppDatabase.invoke(requireContext()).getCurrencyDao()
+        )
+        RepositoryImpl(remoteSource, localSource)
     }
 
     private val currencyViewModel: CurrencyViewModel by lazy {
@@ -42,16 +45,35 @@ class CurrencyFragment : Fragment() {
     private lateinit var binding: FragmentCurrencyListBinding
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_currency_list, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.fragment_currency_list,
+            container,
+            false
+        )
 
         initSwipeRefresh()
         initRecycler()
+
+
+       // binding.toolbar.setNavigationOnClickListener()
+
+
+
+
+
         return binding.root
     }
+
+
     @SuppressLint("ResourceAsColor")
     private fun initSwipeRefresh() {
-        binding.swipeRefresh.setProgressBackgroundColorSchemeColor(R.color.purple_200)
+        binding.swipeRefresh.setProgressBackgroundColorSchemeColor(R.color.reply_orange_300)
         binding.swipeRefresh.setOnRefreshListener {
             currencyViewModel.getData()
             binding.swipeRefresh.isRefreshing = false
