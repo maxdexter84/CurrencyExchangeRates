@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class CalculatorViewModel: ViewModel() {
+class CalculatorViewModel : ViewModel() {
 
 
     private val _calculateRes = MutableLiveData<String>("")
-            val calculateRes: LiveData<String>
-            get() = _calculateRes
+    val calculateRes: LiveData<String>
+        get() = _calculateRes
 
-    fun calculate(nominal: String = "", rate: String = "", sum: String = ""){
+    fun calculate(nominal: String = "", rate: String = "", sum: String = "") {
         val unit = nominal.toDoubleOrNull()
         val exchangeRate = rate.toDoubleOrNull()
         val sumToConvert = sum.toDoubleOrNull()

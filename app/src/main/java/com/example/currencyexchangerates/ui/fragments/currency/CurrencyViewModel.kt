@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.currencyexchangerates.repository.IRepository
+import com.example.currencyexchangerates.domain.repository.Repository
 import com.example.currencyexchangerates.ui.entity.UICurrency
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class CurrencyViewModel(private val repository: IRepository) : ViewModel() {
+class CurrencyViewModel(private val repository: Repository) : ViewModel() {
 
     private val _currencyList = MutableLiveData<List<UICurrency>>(emptyList())
     val currencyList: LiveData<List<UICurrency>>
@@ -20,8 +20,8 @@ class CurrencyViewModel(private val repository: IRepository) : ViewModel() {
         getData()
     }
 
-     fun getData() {
-         _currencyList.value = emptyList()
+    fun getData() {
+        _currencyList.value = emptyList()
         viewModelScope.launch {
             repository.getData().collect {
                 delay(100)
