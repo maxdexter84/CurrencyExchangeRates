@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.currencyexchangerates.repository.IRepository
+import com.example.currencyexchangerates.domain.repository.IRepository
 import com.example.currencyexchangerates.ui.entity.UICurrency
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect

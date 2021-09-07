@@ -17,10 +17,9 @@ import com.example.currencyexchangerates.data.remote.CurrencyApi
 import com.example.currencyexchangerates.data.remote.IRemoteDataSource
 import com.example.currencyexchangerates.data.remote.RemoteDataSourceImpl
 import com.example.currencyexchangerates.databinding.FragmentCurrencyListBinding
-import com.example.currencyexchangerates.repository.IRepository
-import com.example.currencyexchangerates.repository.RepositoryImpl
+import com.example.currencyexchangerates.domain.repository.IRepository
+import com.example.currencyexchangerates.data.RepositoryImpl
 import com.example.currencyexchangerates.ui.adapters.CurrencyAdapter
-import com.google.android.material.appbar.AppBarLayout
 
 
 class CurrencyFragment : Fragment() {

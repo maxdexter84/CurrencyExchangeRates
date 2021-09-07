@@ -1,4 +1,4 @@
-package com.example.currencyexchangerates.repository
+package com.example.currencyexchangerates.domain.repository
 
 import com.example.currencyexchangerates.data.entity.localeCurrency.Bookmark
 import com.example.currencyexchangerates.data.entity.localeCurrency.DbCurrency
