@@ -5,46 +5,47 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.currencyexchangerates.R
-import com.example.currencyexchangerates.data.RepositoryImpl
 import com.example.currencyexchangerates.data.locale.AppDatabase
-import com.example.currencyexchangerates.domain.repository.LocalRepository
 import com.example.currencyexchangerates.data.locale.LocalRepositoryImpl
 import com.example.currencyexchangerates.data.remote.CurrencyApi
-import com.example.currencyexchangerates.domain.repository.RemoteRepository
 import com.example.currencyexchangerates.data.remote.RemoteRepositoryImpl
 import com.example.currencyexchangerates.databinding.FragmentCurrencyListBinding
-import com.example.currencyexchangerates.domain.repository.Repository
+import com.example.currencyexchangerates.domain.repository.LocalRepository
+import com.example.currencyexchangerates.domain.repository.RemoteRepository
+import com.example.currencyexchangerates.domain.usecaseimpl.GetCurrenciesUseCaseImpl
+import com.example.currencyexchangerates.domain.usecaseimpl.SaveCurrenciesUseCaseImpl
 import com.example.currencyexchangerates.ui.adapters.CurrencyAdapter
 
 
 class CurrencyFragment : Fragment() {
 
-    private val repository: Repository by lazy {
-        val remoteSource: RemoteRepository = RemoteRepositoryImpl(CurrencyApi.currencyService)
-        val localSource: LocalRepository = LocalRepositoryImpl(
-            AppDatabase.invoke(requireContext()).getBookmarkDao(),
-            AppDatabase.invoke(requireContext()).getCurrencyDao()
-        )
-        RepositoryImpl(remoteSource, localSource)
-    }
 
     private val currencyViewModel: CurrencyViewModel by lazy {
+        val remoteRepository: RemoteRepository = RemoteRepositoryImpl(CurrencyApi.currencyService)
+        val localRepository: LocalRepository = LocalRepositoryImpl(
+            AppDatabase.invoke(requireContext()).getCurrencyDao()
+        )
+
+        val getCurrenciesUseCase = GetCurrenciesUseCaseImpl(remoteRepository, localRepository)
+        val saveCurrenciesUseCase = SaveCurrenciesUseCaseImpl(localRepository)
         ViewModelProvider(
             this,
-            CurrencyFragmentViewModelFactory(repository)
+            CurrencyFragmentViewModelFactory(getCurrenciesUseCase, saveCurrenciesUseCase)
         ).get(CurrencyViewModel::class.java)
     }
 
     private val currencyAdapter: CurrencyAdapter by lazy {
-        CurrencyAdapter()
+        CurrencyAdapter {
+            CurrencyFragmentDirections.actionCurrencyFragmentToCalculatorDialogFragment(it)
+        }
     }
 
-    private lateinit var binding: FragmentCurrencyListBinding
+    private var _binding: FragmentCurrencyListBinding? = null
+    private val binding get() = _binding!!
 
 
     override fun onCreateView(
@@ -52,23 +53,10 @@ class CurrencyFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(
-            layoutInflater,
-            R.layout.fragment_currency_list,
-            container,
-            false
-        )
+        _binding = FragmentCurrencyListBinding.inflate(layoutInflater)
 
         initSwipeRefresh()
         initRecycler()
-
-
-
-
-
-
-
-
         return binding.root
     }
 
@@ -77,7 +65,7 @@ class CurrencyFragment : Fragment() {
     private fun initSwipeRefresh() {
         binding.swipeRefresh.setProgressBackgroundColorSchemeColor(R.color.reply_orange_300)
         binding.swipeRefresh.setOnRefreshListener {
-            currencyViewModel.getData()
+            currencyViewModel.loadData()
             binding.swipeRefresh.isRefreshing = false
         }
     }
@@ -88,5 +76,10 @@ class CurrencyFragment : Fragment() {
         currencyViewModel.currencyList.observe(viewLifecycleOwner, {
             currencyAdapter.submitList(it)
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

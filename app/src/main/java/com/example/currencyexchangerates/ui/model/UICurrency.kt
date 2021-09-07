@@ -1,4 +1,4 @@
-package com.example.currencyexchangerates.ui.entity
+package com.example.currencyexchangerates.ui.model
 
 import java.io.Serializable
 

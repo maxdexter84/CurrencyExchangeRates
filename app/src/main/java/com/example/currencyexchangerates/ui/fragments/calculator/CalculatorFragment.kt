@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.currencyexchangerates.R
 import com.example.currencyexchangerates.databinding.FragmentCalculatorBinding
 
 
@@ -29,7 +27,7 @@ class CalculatorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_calculator, container, false)
+        binding = FragmentCalculatorBinding.inflate(layoutInflater)
 
         binding.toolbar2.setNavigationOnClickListener {
             findNavController().navigateUp()

@@ -1,82 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/small_space_8dp"
+    android:forceDarkAllowed="true"
+    app:cardCornerRadius="@dimen/min_space_4dp"
+    app:cardElevation="@dimen/min_space_4dp">
 
-    <data>
-        <variable
-            name="clickListener"
-            type="android.view.View.OnClickListener"/>
-        <variable
-            name="currency"
-            type="com.example.currencyexchangerates.ui.entity.UICurrency" />
-    </data>
-    <androidx.cardview.widget.CardView
-        android:onClick="@{clickListener}"
-        app:cardCornerRadius="@dimen/min_space_4dp"
-        app:cardElevation="@dimen/min_space_4dp"
-        android:forceDarkAllowed="true"
-        android:layout_margin="@dimen/small_space_8dp"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/small_space_8dp">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/tv_currency_code"
+            style="@style/currencyTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
             android:layout_margin="@dimen/small_space_8dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:text="@{currency.charCode}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="USD" />
+
+        <TextView
+            android:id="@+id/tv_currency_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_space_8dp"
+            android:gravity="center"
+            android:minLines="3"
+            android:text="@{currency.name}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_current_course"
+            app:layout_constraintStart_toEndOf="@+id/tv_currency_unit"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Американский доллар" />
+
+        <TextView
+            android:id="@+id/tv_currency_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_space_8dp"
+            android:text="@{currency.nominal}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_currency_code"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="100" />
+
+        <TextView
+            android:id="@+id/tv_current_course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_space_8dp"
+            android:text="@{currency.value}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="74 " />
 
 
-            <TextView
-                android:id="@+id/tv_currency_code"
-                style="@style/currencyTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_margin="@dimen/small_space_8dp"
-                android:text="@{currency.charCode}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="USD" />
-
-            <TextView
-                android:id="@+id/tv_currency_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_space_8dp"
-                android:minLines="3"
-                android:gravity="center"
-                android:text="@{currency.name}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tv_current_course"
-                app:layout_constraintStart_toEndOf="@+id/tv_currency_unit"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Американский доллар" />
-
-            <TextView
-                android:id="@+id/tv_currency_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_space_8dp"
-                android:text="@{currency.nominal}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_currency_code"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="100" />
-
-            <TextView
-                android:id="@+id/tv_current_course"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_space_8dp"
-                android:text="@{currency.value}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="74 " />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</layout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

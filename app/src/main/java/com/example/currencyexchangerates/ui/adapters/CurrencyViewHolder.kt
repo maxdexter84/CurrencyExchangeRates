@@ -2,21 +2,18 @@ package com.example.currencyexchangerates.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyexchangerates.databinding.ItemCurrencyBinding
-import com.example.currencyexchangerates.ui.fragments.currency.CurrencyFragmentDirections
-import com.example.currencyexchangerates.ui.entity.UICurrency
+import com.example.currencyexchangerates.ui.model.UICurrency
 
 class CurrencyViewHolder(private val binding: ItemCurrencyBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: UICurrency) {
-        binding.currency = item
-        binding.executePendingBindings()
-        binding.setClickListener {
-            it.findNavController().navigate(
-                CurrencyFragmentDirections.actionCurrencyFragmentToCalculatorDialogFragment(item)
-            )
+        binding.apply {
+            tvCurrencyName.text = item.name
+            tvCurrencyUnit.text = item.nominal
+            tvCurrentCourse.text = item.value
+            tvCurrencyCode.text = item.charCode
         }
     }
 

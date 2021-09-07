@@ -2,7 +2,7 @@ package com.example.currencyexchangerates.domain.repository
 
 import com.example.currencyexchangerates.data.model.localeCurrency.Bookmark
 import com.example.currencyexchangerates.data.model.localeCurrency.DbCurrency
-import com.example.currencyexchangerates.ui.entity.UICurrency
+import com.example.currencyexchangerates.ui.model.UICurrency
 import kotlinx.coroutines.flow.Flow
 
 interface Repository {

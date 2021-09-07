@@ -2,25 +2,18 @@ package com.example.currencyexchangerates.ui.adapters
 
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.currencyexchangerates.ui.entity.UICurrency
+import com.example.currencyexchangerates.ui.model.UICurrency
 
-class CurrencyAdapter : ListAdapter<UICurrency, CurrencyViewHolder>(DiffCallback()) {
+class CurrencyAdapter(private val click:(UICurrency)->Unit) : ListAdapter<UICurrency, CurrencyViewHolder>(DiffCallback()) {
 
-
-    class DiffCallback : DiffUtil.ItemCallback<UICurrency>() {
-        override fun areItemsTheSame(oldItem: UICurrency, newItem: UICurrency): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: UICurrency, newItem: UICurrency): Boolean {
-            return oldItem == newItem
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {
-        return CurrencyViewHolder.from(parent)
+        val vh = CurrencyViewHolder.from(parent)
+            vh.itemView.setOnClickListener {
+                click.invoke(currentList[vh.absoluteAdapterPosition])
+            }
+        return vh
     }
 
     override fun onBindViewHolder(holder: CurrencyViewHolder, position: Int) {
