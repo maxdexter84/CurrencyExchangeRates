@@ -8,19 +8,19 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 const val BASE_URL = "https://www.cbr-xml-daily.ru"
 
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
+private val moshi = Moshi.Builder()
+    .add(KotlinJsonAdapterFactory())
+    .build()
 
-    private val retrofit = Retrofit.Builder()
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .addCallAdapterFactory(CoroutineCallAdapterFactory())
-        .baseUrl(BASE_URL)
-        .build()
+private val retrofit = Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .addCallAdapterFactory(CoroutineCallAdapterFactory())
+    .baseUrl(BASE_URL)
+    .build()
 
-    object CurrencyApi{
-        val currencyService: ICurrencyApi by lazy {
-            retrofit.create(ICurrencyApi::class.java)
-        }
+object CurrencyApi {
+    val currencyService: ICurrencyApi by lazy {
+        retrofit.create(ICurrencyApi::class.java)
     }
+}
 

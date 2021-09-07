@@ -13,7 +13,6 @@ import com.example.currencyexchangerates.R
 import com.example.currencyexchangerates.databinding.FragmentCalculatorBinding
 
 
-
 class CalculatorFragment : Fragment() {
 
     private lateinit var binding: FragmentCalculatorBinding
@@ -26,9 +25,11 @@ class CalculatorFragment : Fragment() {
         arguments?.let { CalculatorFragmentArgs.fromBundle(it) }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_calculator,container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_calculator, container, false)
 
         binding.toolbar2.setNavigationOnClickListener {
             findNavController().navigateUp()

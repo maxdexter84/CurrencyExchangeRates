@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.currencyexchangerates.data.entity.localeCurrency.Bookmark
+import com.example.currencyexchangerates.data.model.localeCurrency.Bookmark
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,7 +1,7 @@
 package com.example.currencyexchangerates.data.locale.dao
 
 import androidx.room.*
-import com.example.currencyexchangerates.data.entity.localeCurrency.DbCurrency
+import com.example.currencyexchangerates.data.model.localeCurrency.DbCurrency
 import kotlinx.coroutines.flow.Flow
 
 @Dao

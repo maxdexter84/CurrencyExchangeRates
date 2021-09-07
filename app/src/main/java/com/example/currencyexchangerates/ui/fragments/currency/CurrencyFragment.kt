@@ -10,23 +10,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.currencyexchangerates.R
-import com.example.currencyexchangerates.data.locale.AppDatabase
-import com.example.currencyexchangerates.data.locale.ILocalDataSource
-import com.example.currencyexchangerates.data.locale.LocalDataSourceImpl
-import com.example.currencyexchangerates.data.remote.CurrencyApi
-import com.example.currencyexchangerates.data.remote.IRemoteDataSource
-import com.example.currencyexchangerates.data.remote.RemoteDataSourceImpl
-import com.example.currencyexchangerates.databinding.FragmentCurrencyListBinding
-import com.example.currencyexchangerates.domain.repository.IRepository
 import com.example.currencyexchangerates.data.RepositoryImpl
+import com.example.currencyexchangerates.data.locale.AppDatabase
+import com.example.currencyexchangerates.domain.repository.LocalRepository
+import com.example.currencyexchangerates.data.locale.LocalRepositoryImpl
+import com.example.currencyexchangerates.data.remote.CurrencyApi
+import com.example.currencyexchangerates.domain.repository.RemoteRepository
+import com.example.currencyexchangerates.data.remote.RemoteRepositoryImpl
+import com.example.currencyexchangerates.databinding.FragmentCurrencyListBinding
+import com.example.currencyexchangerates.domain.repository.Repository
 import com.example.currencyexchangerates.ui.adapters.CurrencyAdapter
 
 
 class CurrencyFragment : Fragment() {
 
-    private val repository: IRepository by lazy {
-        val remoteSource: IRemoteDataSource = RemoteDataSourceImpl(CurrencyApi.currencyService)
-        val localSource: ILocalDataSource = LocalDataSourceImpl(
+    private val repository: Repository by lazy {
+        val remoteSource: RemoteRepository = RemoteRepositoryImpl(CurrencyApi.currencyService)
+        val localSource: LocalRepository = LocalRepositoryImpl(
             AppDatabase.invoke(requireContext()).getBookmarkDao(),
             AppDatabase.invoke(requireContext()).getCurrencyDao()
         )
@@ -34,7 +34,10 @@ class CurrencyFragment : Fragment() {
     }
 
     private val currencyViewModel: CurrencyViewModel by lazy {
-        ViewModelProvider(this, CurrencyFragmentViewModelFactory(repository)).get(CurrencyViewModel::class.java)
+        ViewModelProvider(
+            this,
+            CurrencyFragmentViewModelFactory(repository)
+        ).get(CurrencyViewModel::class.java)
     }
 
     private val currencyAdapter: CurrencyAdapter by lazy {
