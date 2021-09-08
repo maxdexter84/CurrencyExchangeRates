@@ -2,24 +2,31 @@ package com.example.currencyexchangerates.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
+import com.example.currencyexchangerates.App
+import com.example.currencyexchangerates.AppPreferences
 import com.example.currencyexchangerates.R
 import com.example.currencyexchangerates.databinding.ActivityMainBinding
+import com.example.currencyexchangerates.ui.fragments.currency.CurrencyFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
-    private val navController: NavController by lazy {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navHostFragment.navController
+    private val prefs: AppPreferences by lazy {
+        App.preferences!!
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
+        setContentView(binding.root)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, CurrencyFragment.newInstance()).commit()
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        prefs.launches = prefs.launches.plus(1)
+    }
+
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.currencyexchangerates.AppPreferences
 import com.example.currencyexchangerates.domain.LoadingResponse
 import com.example.currencyexchangerates.domain.usecases.GetCurrenciesUseCase
 import com.example.currencyexchangerates.domain.usecases.SaveCurrenciesUseCase
@@ -16,7 +17,8 @@ import kotlinx.coroutines.withContext
 
 class CurrencyViewModel(
     private val getCurrenciesUseCase: GetCurrenciesUseCase,
-    private val saveCurrenciesUseCase: SaveCurrenciesUseCase
+    private val saveCurrenciesUseCase: SaveCurrenciesUseCase,
+    private val prefs: AppPreferences
 ) : ViewModel() {
 
     private val _currencyList = MutableLiveData<List<UICurrency>>(emptyList())
@@ -28,7 +30,15 @@ class CurrencyViewModel(
         get() = _error
 
     init {
-        loadData()
+        startApp()
+
+    }
+
+    fun startApp(){
+        val launch = prefs.launches
+        if (launch >= 1) {
+            getLocalData()
+        } else loadData()
     }
 
     private fun getLocalData() {
@@ -40,10 +50,9 @@ class CurrencyViewModel(
     }
 
     fun loadData() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                delay(100)
-                val result = getCurrenciesUseCase.getRemoteData()
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = getCurrenciesUseCase.getRemoteData()
+            withContext(Dispatchers.Main){
                 parseResult(result)
             }
         }
@@ -53,6 +62,7 @@ class CurrencyViewModel(
         when (result) {
             is LoadingResponse.Success -> saveData(result.data)
             is LoadingResponse.Failure -> _error.value = result.error
+            else -> {}
         }
     }
 
