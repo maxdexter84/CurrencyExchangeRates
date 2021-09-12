@@ -1,5 +1,6 @@
 package com.example.currencyexchangerates.ui.fragments.currency
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +11,6 @@ import com.example.currencyexchangerates.domain.usecases.GetCurrenciesUseCase
 import com.example.currencyexchangerates.domain.usecases.SaveCurrenciesUseCase
 import com.example.currencyexchangerates.ui.model.UICurrency
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,7 +34,7 @@ class CurrencyViewModel(
 
     }
 
-    fun startApp(){
+    fun startApp() {
         val launch = prefs.launches
         if (launch >= 1) {
             getLocalData()
@@ -52,7 +52,7 @@ class CurrencyViewModel(
     fun loadData() {
         viewModelScope.launch(Dispatchers.IO) {
             val result = getCurrenciesUseCase.getRemoteData()
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 parseResult(result)
             }
         }
@@ -60,9 +60,15 @@ class CurrencyViewModel(
 
     private fun parseResult(result: LoadingResponse) {
         when (result) {
-            is LoadingResponse.Success -> saveData(result.data)
+            is LoadingResponse.Success -> {
+                _currencyList.value = emptyList()
+                saveData(result.data)
+                getLocalData()
+            }
             is LoadingResponse.Failure -> _error.value = result.error
-            else -> {}
+            else -> {
+                Log.i("WTF", "какая то непонятная хрень")
+            }
         }
     }
 

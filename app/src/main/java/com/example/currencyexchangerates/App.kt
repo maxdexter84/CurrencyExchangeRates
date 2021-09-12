@@ -1,12 +1,9 @@
 package com.example.currencyexchangerates
 
 import android.app.Application
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequest
-import androidx.work.PeriodicWorkRequestBuilder
+import android.util.Log
+import androidx.work.Configuration
 import androidx.work.WorkManager
-import com.example.currencyexchangerates.data.worker.CurrencyLoadWorker
-import java.util.concurrent.TimeUnit
 
 
 class App : Application() {
@@ -22,10 +19,14 @@ class App : Application() {
         instance = this
         preferences = AppPreferences(applicationContext)
 
+        val myConfig = Configuration.Builder()
+            .setMinimumLoggingLevel(Log.INFO)
+            .build()
+
+        WorkManager.initialize(this, myConfig)
 
 
-        val myWork = PeriodicWorkRequestBuilder<CurrencyLoadWorker>(24, TimeUnit.HOURS).build()
-        WorkManager.getInstance(this)
-            .enqueueUniquePeriodicWork("Load Data Work", ExistingPeriodicWorkPolicy.KEEP, myWork)
     }
+
+
 }
