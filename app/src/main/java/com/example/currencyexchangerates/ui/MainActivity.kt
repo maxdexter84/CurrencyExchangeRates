@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val myWork = PeriodicWorkRequestBuilder<CurrencyLoadWorker>(24, TimeUnit.HOURS).build()
+        val myWork = PeriodicWorkRequestBuilder<CurrencyLoadWorker>(10, TimeUnit.HOURS).build()
        WorkManager.getInstance(this)
             .enqueueUniquePeriodicWork("Load Data Work", ExistingPeriodicWorkPolicy.KEEP, myWork).state.observe(this,{
                 Log.i("WORKER", it.toString())
