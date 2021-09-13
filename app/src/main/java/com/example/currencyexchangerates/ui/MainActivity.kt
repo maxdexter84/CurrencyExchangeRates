@@ -26,10 +26,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val myWork = PeriodicWorkRequestBuilder<CurrencyLoadWorker>(10, TimeUnit.HOURS).build()
-       WorkManager.getInstance(this)
-            .enqueueUniquePeriodicWork("Load Data Work", ExistingPeriodicWorkPolicy.KEEP, myWork).state.observe(this,{
+        WorkManager.getInstance(this)
+            .enqueueUniquePeriodicWork(
+                "Load Data Work",
+                ExistingPeriodicWorkPolicy.KEEP,
+                myWork
+            ).state.observe(this, {
                 Log.i("WORKER", it.toString())
-           })
+            })
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, CurrencyFragment.newInstance()).commit()
 

@@ -14,7 +14,7 @@ class GetCurrenciesUseCaseImpl(
     GetCurrenciesUseCase {
 
     override suspend fun getRemoteData(): LoadingResponse {
-       return remoteRepository.getDataAsync()
+        return remoteRepository.getDataAsync()
     }
 
     override suspend fun getLocalData(): Flow<List<UICurrency>> {

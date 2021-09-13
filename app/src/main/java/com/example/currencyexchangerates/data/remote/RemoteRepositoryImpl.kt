@@ -14,7 +14,5 @@ class RemoteRepositoryImpl(private val api: ICurrencyApi) : RemoteRepository {
         } catch (e: IOException) {
             LoadingResponse.Failure(e.toString())
         }
-
-
     }
 }

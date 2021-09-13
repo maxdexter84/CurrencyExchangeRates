@@ -1,7 +1,6 @@
 package com.example.currencyexchangerates.data.worker
 
 
-
 import android.content.Context
 import android.util.Log
 import androidx.work.Worker
@@ -23,7 +22,7 @@ import kotlinx.coroutines.launch
 
 private const val TAG_WORKER = "WORKER_MANAGER"
 
-class CurrencyLoadWorker(private val context: Context, private val params: WorkerParameters) :
+class CurrencyLoadWorker(private val context: Context, params: WorkerParameters) :
     Worker(context, params) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     override fun doWork(): Result {

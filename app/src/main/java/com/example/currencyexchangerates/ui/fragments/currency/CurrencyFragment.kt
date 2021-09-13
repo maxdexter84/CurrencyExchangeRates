@@ -22,6 +22,7 @@ import com.example.currencyexchangerates.domain.usecaseimpl.GetCurrenciesUseCase
 import com.example.currencyexchangerates.domain.usecaseimpl.SaveCurrenciesUseCaseImpl
 import com.example.currencyexchangerates.ui.adapters.CurrencyAdapter
 import com.example.currencyexchangerates.ui.fragments.calculator.CalculatorFragment
+import com.google.android.material.snackbar.Snackbar
 
 
 class CurrencyFragment : Fragment() {
@@ -45,6 +46,24 @@ class CurrencyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCurrencyListBinding.inflate(layoutInflater)
+        initViewModel()
+        currencyViewModel.startApp()
+        initSwipeRefresh()
+        initRecycler()
+        errorsObserver()
+        return binding.root
+    }
+
+    private fun errorsObserver() {
+        currencyViewModel.error.observe(viewLifecycleOwner, {
+            Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).setAction("Retry") {
+                currencyViewModel.loadData()
+            }.show()
+        })
+    }
+
+
+    private fun initViewModel() {
         val remoteRepository: RemoteRepository = RemoteRepositoryImpl(CurrencyApi.currencyService)
         val localRepository: LocalRepository =
             LocalRepositoryImpl(AppDatabase.invoke(requireContext()).getCurrencyDao())
@@ -54,10 +73,6 @@ class CurrencyFragment : Fragment() {
             this,
             CurrencyFragmentViewModelFactory(getCurrenciesUseCase, saveCurrenciesUseCase, prefs)
         ).get(CurrencyViewModel::class.java)
-        currencyViewModel.startApp()
-        initSwipeRefresh()
-        initRecycler()
-        return binding.root
     }
 
 
