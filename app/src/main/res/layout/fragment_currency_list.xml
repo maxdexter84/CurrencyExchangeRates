@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-    </data>
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -23,24 +17,24 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="Курс валют ЦБ РФ"
             android:fitsSystemWindows="true"
             app:collapsedTitleGravity="center"
             app:expandedTitleGravity="left|bottom"
             app:expandedTitleTextAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-            >
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="Курс валют ЦБ РФ">
 
             <ImageView
                 android:id="@+id/backdrop"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
-                android:padding="@dimen/small_space_8dp"
                 android:fitsSystemWindows="true"
                 android:gravity="top"
+                android:padding="@dimen/small_space_8dp"
                 android:scaleType="fitCenter"
-                app:layout_collapseMode="none"
-                android:src="@drawable/cbr_1" />
+                android:src="@drawable/cbr_1"
+                app:layout_collapseMode="none" />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -49,11 +43,12 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_currency_list"
@@ -65,4 +60,3 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</layout>

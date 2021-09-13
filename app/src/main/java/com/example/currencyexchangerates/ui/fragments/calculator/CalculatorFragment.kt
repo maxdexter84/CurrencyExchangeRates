@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import com.example.currencyexchangerates.R
 import com.example.currencyexchangerates.databinding.FragmentCalculatorBinding
+import com.example.currencyexchangerates.ui.model.UICurrency
 
 
 class CalculatorFragment : Fragment() {
@@ -21,18 +19,18 @@ class CalculatorFragment : Fragment() {
         ViewModelProvider(this).get(CalculatorViewModel::class.java)
     }
 
-    private val args: CalculatorFragmentArgs? by lazy {
-        arguments?.let { CalculatorFragmentArgs.fromBundle(it) }
-    }
+    private lateinit var args: UICurrency
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_calculator, container, false)
-
+        binding = FragmentCalculatorBinding.inflate(layoutInflater)
+        arguments.let {
+            args = it?.getSerializable(ITEM) as UICurrency
+        }
         binding.toolbar2.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            activity?.onBackPressed()
         }
         initCalculate()
         initTV()
@@ -40,7 +38,7 @@ class CalculatorFragment : Fragment() {
     }
 
     private fun initTV() {
-        binding.tvCurrencyName.text = args?.uiCurrency?.name
+        binding.tvCurrencyName.text = args.name
         viewModel.calculateRes.observe(viewLifecycleOwner, {
             binding.tvValute.text = it
 
@@ -48,11 +46,23 @@ class CalculatorFragment : Fragment() {
     }
 
     private fun initCalculate() {
-        val nominal = args?.uiCurrency?.nominal ?: ""
-        val value = args?.uiCurrency?.value ?: ""
+        val nominal = args.nominal
+        val value = args.value
         binding.etRub.doAfterTextChanged {
             viewModel.calculate(nominal, value, it.toString())
         }
+    }
+
+    companion object {
+        const val ITEM = "UI_ITEM"
+        const val TAG = "com.example.currencyexchangerates.ui.fragments.calculator"
+
+        fun newInstance(item: UICurrency) =
+            CalculatorFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(ITEM, item)
+                }
+            }
     }
 
 

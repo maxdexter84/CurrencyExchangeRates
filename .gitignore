@@ -13,3 +13,36 @@
 .externalNativeBuild
 .cxx
 local.properties
+#
+#Android generated
+bin
+gen
+target
+out
+build
+
+#Eclipse
+.project
+.classpath
+.settings
+
+#IntelliJ IDEA
+.idea
+classes
+*.ipr
+*.iws
+gen-external-apklibs
+
+#Maven
+release.properties
+pom.xml.*
+
+#Ant
+build.xml
+ant.properties
+
+
+
+#Command line
+proguard-project.txt
+.tmp
