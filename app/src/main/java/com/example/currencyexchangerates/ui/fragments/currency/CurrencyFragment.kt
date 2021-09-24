@@ -86,14 +86,14 @@ class CurrencyFragment : Fragment() {
     }
 
     private fun initRecycler() {
-        currencyAdapter = CurrencyAdapter {
+        currencyAdapter =
             CurrencyAdapter {
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, CalculatorFragment.newInstance(it))
                     .addToBackStack(CalculatorFragment.TAG)
                     .commit()
             }
-        }
+
         binding.rvCurrencyList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCurrencyList.adapter = currencyAdapter
         currencyViewModel.currencyList.observe(viewLifecycleOwner, {
