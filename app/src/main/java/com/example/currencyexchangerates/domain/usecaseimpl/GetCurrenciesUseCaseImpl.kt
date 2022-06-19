@@ -1,10 +1,10 @@
 package com.example.currencyexchangerates.domain.usecaseimpl
 
 import com.example.currencyexchangerates.domain.LoadingResponse
+import com.example.currencyexchangerates.domain.model.Currency
 import com.example.currencyexchangerates.domain.repository.LocalRepository
 import com.example.currencyexchangerates.domain.repository.RemoteRepository
 import com.example.currencyexchangerates.domain.usecases.GetCurrenciesUseCase
-import com.example.currencyexchangerates.ui.model.UICurrency
 import kotlinx.coroutines.flow.Flow
 
 class GetCurrenciesUseCaseImpl(
@@ -17,7 +17,7 @@ class GetCurrenciesUseCaseImpl(
         return remoteRepository.getDataAsync()
     }
 
-    override suspend fun getLocalData(): Flow<List<UICurrency>> {
+    override fun getLocalData(): Flow<List<Currency>> {
         return localRepository.getData()
     }
 }
