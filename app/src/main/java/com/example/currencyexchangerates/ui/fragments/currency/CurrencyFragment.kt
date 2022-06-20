@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.currencyexchangerates.App
 import com.example.currencyexchangerates.AppPreferences
@@ -23,6 +24,10 @@ import com.example.currencyexchangerates.domain.usecaseimpl.SaveCurrenciesUseCas
 import com.example.currencyexchangerates.ui.adapters.CurrencyAdapter
 import com.example.currencyexchangerates.ui.fragments.calculator.CalculatorFragment
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onSubscription
 
 
 class CurrencyFragment : Fragment() {
@@ -55,11 +60,11 @@ class CurrencyFragment : Fragment() {
     }
 
     private fun errorsObserver() {
-        currencyViewModel.error.observe(viewLifecycleOwner, {
+        currencyViewModel.error.onEach {
             Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).setAction("Retry") {
-                currencyViewModel.loadData()
+                currencyViewModel.loadData("RUB")
             }.show()
-        })
+        }
     }
 
 
@@ -80,7 +85,7 @@ class CurrencyFragment : Fragment() {
     private fun initSwipeRefresh() {
         binding.swipeRefresh.setProgressBackgroundColorSchemeColor(R.color.reply_orange_300)
         binding.swipeRefresh.setOnRefreshListener {
-            currencyViewModel.loadData()
+            currencyViewModel.loadData("RUB")
             binding.swipeRefresh.isRefreshing = false
         }
     }
@@ -88,17 +93,18 @@ class CurrencyFragment : Fragment() {
     private fun initRecycler() {
         currencyAdapter =
             CurrencyAdapter {
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, CalculatorFragment.newInstance(it))
-                    .addToBackStack(CalculatorFragment.TAG)
-                    .commit()
+//                parentFragmentManager.beginTransaction()
+//                    .replace(R.id.fragment_container, CalculatorFragment.newInstance(it))
+//                    .addToBackStack(CalculatorFragment.TAG)
+//                    .commit()
             }
 
         binding.rvCurrencyList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCurrencyList.adapter = currencyAdapter
-        currencyViewModel.currencyList.observe(viewLifecycleOwner, {
-            currencyAdapter.submitList(it)
-        })
+        currencyViewModel.currencyList.onEach {
+            it?.let { currencyAdapter.submitList(it.listItem) }
+
+        }.launchIn(lifecycleScope)
     }
 
     override fun onDestroyView() {

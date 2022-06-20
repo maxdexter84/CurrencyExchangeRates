@@ -5,15 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyexchangerates.databinding.ItemCurrencyBinding
 import com.example.currencyexchangerates.ui.model.UICurrency
+import com.example.currencyexchangerates.ui.model.UIItemCurrency
 
 class CurrencyViewHolder(private val binding: ItemCurrencyBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: UICurrency) {
+    fun bind(item: UIItemCurrency) {
         binding.apply {
             tvCurrencyName.text = item.name
-            tvCurrencyUnit.text = item.nominal
+            tvCurrencyUnit.text = "1"
             tvCurrentCourse.text = item.value
-            tvCurrencyCode.text = item.charCode
+            tvCurrencyCode.text = ""
         }
     }
 

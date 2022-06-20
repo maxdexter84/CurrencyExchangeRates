@@ -9,6 +9,7 @@ import androidx.work.WorkManager
 import com.example.currencyexchangerates.App
 import com.example.currencyexchangerates.AppPreferences
 import com.example.currencyexchangerates.R
+import com.example.currencyexchangerates.data.model.Rates
 import com.example.currencyexchangerates.data.worker.CurrencyLoadWorker
 import com.example.currencyexchangerates.databinding.ActivityMainBinding
 import com.example.currencyexchangerates.ui.fragments.currency.CurrencyFragment
@@ -25,15 +26,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val myWork = PeriodicWorkRequestBuilder<CurrencyLoadWorker>(10, TimeUnit.HOURS).build()
-        WorkManager.getInstance(this)
-            .enqueueUniquePeriodicWork(
-                "Load Data Work",
-                ExistingPeriodicWorkPolicy.KEEP,
-                myWork
-            ).state.observe(this, {
-                Log.i("WORKER", it.toString())
-            })
+//        val myWork = PeriodicWorkRequestBuilder<CurrencyLoadWorker>(10, TimeUnit.HOURS).build()
+//        WorkManager.getInstance(this)
+//            .enqueueUniquePeriodicWork(
+//                "Load Data Work",
+//                ExistingPeriodicWorkPolicy.KEEP,
+//                myWork
+//            ).state.observe(this, {
+//                Log.i("WORKER", it.toString())
+//            })
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, CurrencyFragment.newInstance()).commit()
 
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         prefs.launches = prefs.launches.plus(1)
+
     }
 
 }

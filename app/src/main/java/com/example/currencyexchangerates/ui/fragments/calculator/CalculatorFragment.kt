@@ -38,7 +38,7 @@ class CalculatorFragment : Fragment() {
     }
 
     private fun initTV() {
-        binding.tvCurrencyName.text = args.name
+//        binding.tvCurrencyName.text = args.name
         viewModel.calculateRes.observe(viewLifecycleOwner, {
             binding.tvValute.text = it
 
@@ -46,11 +46,11 @@ class CalculatorFragment : Fragment() {
     }
 
     private fun initCalculate() {
-        val nominal = args.nominal
-        val value = args.value
-        binding.etRub.doAfterTextChanged {
-            viewModel.calculate(nominal, value, it.toString())
-        }
+//        val nominal = args.nominal
+//        val value = args.value
+//        binding.etRub.doAfterTextChanged {
+//            viewModel.calculate(nominal, value, it.toString())
+//        }
     }
 
     companion object {

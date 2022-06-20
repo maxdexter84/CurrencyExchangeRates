@@ -1,11 +1,8 @@
 package com.example.currencyexchangerates.domain.model
 
 data class Currency(
-    val id: String,
+    val base: String,
     val date: String,
-    val charCode: String,
-    val nominal: String,
-    val name: String,
-    val value: String,
-    var bookmark: Boolean
+    val rates: HashMap<String, String>,
+    val symbols: HashMap<String, String>
 )

@@ -36,8 +36,8 @@ class CurrencyLoadWorker(private val context: Context, params: WorkerParameters)
             val saveCurrenciesUseCase = SaveCurrenciesUseCaseImpl(localRepository)
             Log.i(TAG_WORKER, "work is start")
             scope.launch {
-                val res = getCurrenciesUseCase.getRemoteData()
-                parseResult(res, saveCurrenciesUseCase)
+                val res = getCurrenciesUseCase.getRemoteData("RUB")
+               // parseResult(res, saveCurrenciesUseCase)
                 Log.i(TAG_WORKER, "work is end")
             }
 
@@ -54,7 +54,7 @@ class CurrencyLoadWorker(private val context: Context, params: WorkerParameters)
         saveCurrenciesUseCase: SaveCurrenciesUseCase
     ) {
         when (result) {
-            is LoadingResponse.Success -> saveCurrenciesUseCase.saveData(result.data)
+//            is LoadingResponse.Success -> saveCurrenciesUseCase.saveData(result.data)
             is LoadingResponse.Failure -> {
                 Log.e(TAG_WORKER, result.error)
                 Result.retry()

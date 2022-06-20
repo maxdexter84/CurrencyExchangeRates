@@ -4,9 +4,10 @@ package com.example.currencyexchangerates.ui.adapters
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.currencyexchangerates.ui.model.UICurrency
+import com.example.currencyexchangerates.ui.model.UIItemCurrency
 
-class CurrencyAdapter(private val click: (UICurrency) -> Unit) :
-    ListAdapter<UICurrency, CurrencyViewHolder>(DiffCallback()) {
+class CurrencyAdapter(private val click: (UIItemCurrency) -> Unit) :
+    ListAdapter<UIItemCurrency, CurrencyViewHolder>(DiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {

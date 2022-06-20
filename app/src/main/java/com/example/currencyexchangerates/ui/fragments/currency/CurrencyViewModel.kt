@@ -2,18 +2,17 @@ package com.example.currencyexchangerates.ui.fragments.currency
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.currencyexchangerates.AppPreferences
-import com.example.currencyexchangerates.domain.LoadingResponse
 import com.example.currencyexchangerates.domain.usecases.GetCurrenciesUseCase
 import com.example.currencyexchangerates.domain.usecases.SaveCurrenciesUseCase
+import com.example.currencyexchangerates.ui.map.convertToUICurrencyList
 import com.example.currencyexchangerates.ui.model.UICurrency
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CurrencyViewModel(
     private val getCurrenciesUseCase: GetCurrenciesUseCase,
@@ -21,13 +20,15 @@ class CurrencyViewModel(
     private val prefs: AppPreferences
 ) : ViewModel() {
 
-    private val _currencyList = MutableLiveData<List<UICurrency>>(emptyList())
-    val currencyList: LiveData<List<UICurrency>>
-        get() = _currencyList
+    private val _currencyList = MutableStateFlow<UICurrency?>(null)
+    val currencyList = _currencyList.asStateFlow()
 
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String>
-        get() = _error
+    private val _error = MutableStateFlow("")
+    val error = _error.asStateFlow()
+
+    private val _loadingState = MutableStateFlow(false)
+    val loadingState = _error.asStateFlow()
+
 
     init {
         startApp()
@@ -35,46 +36,34 @@ class CurrencyViewModel(
     }
 
     fun startApp() {
-        val launch = prefs.launches
-        if (launch >= 1) {
-            getLocalData()
-        } else loadData()
+//        val launch = prefs.launches
+//        if (launch >= 1) {
+//            getLocalData()
+//        } else loadData("RUB")
+        loadData("RUB")
     }
 
     private fun getLocalData() {
-        viewModelScope.launch {
-            getCurrenciesUseCase.getLocalData().collect {
-                _currencyList.value = it
-            }
-        }
+//        viewModelScope.launch {
+//            getCurrenciesUseCase.getLocalData().collect {
+//                _currencyList.value = it
+//            }
+//        }
     }
 
-    fun loadData() {
+    fun loadData(symbol: String) {
+        _loadingState.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            val result = getCurrenciesUseCase.getRemoteData()
-            withContext(Dispatchers.Main) {
-                parseResult(result)
-            }
-        }
-    }
-
-    private fun parseResult(result: LoadingResponse) {
-        when (result) {
-            is LoadingResponse.Success -> {
-                _currencyList.value = emptyList()
-                saveData(result.data)
-                getLocalData()
-            }
-            is LoadingResponse.Failure -> _error.value = result.error
-            else -> {
-                Log.i("WTF", "какая то непонятная хрень")
-            }
-        }
-    }
-
-    private fun saveData(list: List<UICurrency>) {
-        viewModelScope.launch {
-            saveCurrenciesUseCase.saveData(list)
+            getCurrenciesUseCase.getRemoteData(symbol)
+                .map {
+                    it.convertToUICurrencyList()
+                }.onSuccess {
+                    _currencyList.value = it
+                    Log.i("UPLOAD_DATA_VIEWMODEL", "SUCSsESS")
+                    _loadingState.value = false
+                }.onFailure {
+                    Log.i("UPLOAD_DATA_VIEWMODEL", it.message.toString())
+                }
         }
     }
 }
