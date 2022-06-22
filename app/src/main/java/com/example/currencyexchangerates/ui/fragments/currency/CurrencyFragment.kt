@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.currencyexchangerates.App
 import com.example.currencyexchangerates.AppPreferences
-import com.example.currencyexchangerates.R
 import com.example.currencyexchangerates.data.locale.AppDatabase
 import com.example.currencyexchangerates.data.locale.LocalRepositoryImpl
 import com.example.currencyexchangerates.data.remote.CurrencyApi
@@ -19,15 +18,12 @@ import com.example.currencyexchangerates.data.remote.RemoteRepositoryImpl
 import com.example.currencyexchangerates.databinding.FragmentCurrencyListBinding
 import com.example.currencyexchangerates.domain.repository.LocalRepository
 import com.example.currencyexchangerates.domain.repository.RemoteRepository
+import com.example.currencyexchangerates.domain.usecaseimpl.BookmarkUseCaseImpl
 import com.example.currencyexchangerates.domain.usecaseimpl.GetCurrenciesUseCaseImpl
-import com.example.currencyexchangerates.domain.usecaseimpl.SaveCurrenciesUseCaseImpl
 import com.example.currencyexchangerates.ui.adapters.CurrencyAdapter
-import com.example.currencyexchangerates.ui.fragments.calculator.CalculatorFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onSubscription
 
 
 class CurrencyFragment : Fragment() {
@@ -52,7 +48,6 @@ class CurrencyFragment : Fragment() {
     ): View {
         _binding = FragmentCurrencyListBinding.inflate(layoutInflater)
         initViewModel()
-        currencyViewModel.startApp()
         initSwipeRefresh()
         initRecycler()
         errorsObserver()
@@ -71,19 +66,18 @@ class CurrencyFragment : Fragment() {
     private fun initViewModel() {
         val remoteRepository: RemoteRepository = RemoteRepositoryImpl(CurrencyApi.currencyService)
         val localRepository: LocalRepository =
-            LocalRepositoryImpl(AppDatabase.invoke(requireContext()).getCurrencyDao())
+            LocalRepositoryImpl(AppDatabase.invoke(requireContext()).getBookmarkDao())
         val getCurrenciesUseCase = GetCurrenciesUseCaseImpl(remoteRepository, localRepository)
-        val saveCurrenciesUseCase = SaveCurrenciesUseCaseImpl(localRepository)
+        val bookmarkUseCase = BookmarkUseCaseImpl(localRepository)
         currencyViewModel = ViewModelProvider(
             this,
-            CurrencyFragmentViewModelFactory(getCurrenciesUseCase, saveCurrenciesUseCase, prefs)
+            CurrencyFragmentViewModelFactory(getCurrenciesUseCase, bookmarkUseCase, prefs)
         ).get(CurrencyViewModel::class.java)
     }
 
 
     @SuppressLint("ResourceAsColor")
     private fun initSwipeRefresh() {
-        binding.swipeRefresh.setProgressBackgroundColorSchemeColor(R.color.reply_orange_300)
         binding.swipeRefresh.setOnRefreshListener {
             currencyViewModel.loadData("RUB")
             binding.swipeRefresh.isRefreshing = false
@@ -92,17 +86,17 @@ class CurrencyFragment : Fragment() {
 
     private fun initRecycler() {
         currencyAdapter =
-            CurrencyAdapter {
-//                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.fragment_container, CalculatorFragment.newInstance(it))
-//                    .addToBackStack(CalculatorFragment.TAG)
-//                    .commit()
+            CurrencyAdapter { item ->
+                currencyViewModel.saveBookmark(item)
             }
 
         binding.rvCurrencyList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCurrencyList.adapter = currencyAdapter
         currencyViewModel.currencyList.onEach {
-            it?.let { currencyAdapter.submitList(it.listItem) }
+            it?.let {
+                currencyAdapter.submitList(it.listItem)
+                binding.collapsingToolbar.title = it.base
+            }
 
         }.launchIn(lifecycleScope)
     }

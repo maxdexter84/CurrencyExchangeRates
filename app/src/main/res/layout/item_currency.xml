@@ -8,12 +8,23 @@
     app:cardCornerRadius="@dimen/min_space_4dp"
     app:cardElevation="@dimen/min_space_4dp">
 
+    <androidx.constraintlayout.utils.widget.ImageFilterButton
+        android:id="@+id/is_bookmark"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/small_space_8dp"
+        app:crossfade="0"
+        android:background="#00F6F2F2"
+        app:srcCompat="@drawable/ic_baseline_bookmark_border_24"
+        app:altSrc="@drawable/ic_baseline_bookmark_24"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/small_space_8dp">
-
 
         <TextView
             android:id="@+id/tv_currency_code"

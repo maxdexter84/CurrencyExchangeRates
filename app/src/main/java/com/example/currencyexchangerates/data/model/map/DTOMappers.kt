@@ -1,8 +1,9 @@
 package com.example.currencyexchangerates.data.model.map
 
 import com.example.currencyexchangerates.data.model.Rates
-import com.example.currencyexchangerates.data.model.Symbols
 import com.example.currencyexchangerates.data.model.SymbolsX
+import com.example.currencyexchangerates.data.model.localeCurrency.Bookmark
+import com.example.currencyexchangerates.domain.model.DomainBookmark
 import kotlin.reflect.full.memberProperties
 
 fun Rates.convertFromRatesToMap(): HashMap<String, String> {
@@ -19,4 +20,12 @@ fun SymbolsX.convertToHashMap(): HashMap<String, String> {
         map[property.name] = property.getValue(this, property) as String
     }
     return map
+}
+
+fun Bookmark.mapToDomainBookmark(): DomainBookmark {
+    return DomainBookmark(shortName, base, name, value)
+}
+
+fun DomainBookmark.mapToDatabaseBookmark(): Bookmark {
+    return Bookmark("$base$shortName",shortName, base, name, value)
 }

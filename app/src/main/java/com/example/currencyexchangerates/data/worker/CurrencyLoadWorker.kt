@@ -30,7 +30,7 @@ class CurrencyLoadWorker(private val context: Context, params: WorkerParameters)
             val remoteRepository: RemoteRepository =
                 RemoteRepositoryImpl(CurrencyApi.currencyService)
             val localRepository: LocalRepository =
-                LocalRepositoryImpl(AppDatabase.invoke(context).getCurrencyDao())
+                LocalRepositoryImpl(AppDatabase.invoke(context).getBookmarkDao())
             val getCurrenciesUseCase = GetCurrenciesUseCaseImpl(remoteRepository, localRepository)
 
             val saveCurrenciesUseCase = SaveCurrenciesUseCaseImpl(localRepository)

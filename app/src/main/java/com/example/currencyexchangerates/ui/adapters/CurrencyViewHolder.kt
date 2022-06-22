@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyexchangerates.databinding.ItemCurrencyBinding
-import com.example.currencyexchangerates.ui.model.UICurrency
 import com.example.currencyexchangerates.ui.model.UIItemCurrency
 
-class CurrencyViewHolder(private val binding: ItemCurrencyBinding) :
+class CurrencyViewHolder(val binding: ItemCurrencyBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: UIItemCurrency) {
         binding.apply {
             tvCurrencyName.text = item.name
-            tvCurrencyUnit.text = "1"
+            tvCurrencyUnit.text = item.shortName
             tvCurrentCourse.text = item.value
             tvCurrencyCode.text = ""
+            isBookmark?.crossfade = if (item.isBookmark) 1f else 0f
         }
     }
 

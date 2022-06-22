@@ -3,7 +3,6 @@ package com.example.currencyexchangerates.ui.adapters
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.example.currencyexchangerates.ui.model.UICurrency
 import com.example.currencyexchangerates.ui.model.UIItemCurrency
 
 class CurrencyAdapter(private val click: (UIItemCurrency) -> Unit) :
@@ -12,8 +11,14 @@ class CurrencyAdapter(private val click: (UIItemCurrency) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {
         val vh = CurrencyViewHolder.from(parent)
-        vh.itemView.setOnClickListener {
-            click.invoke(currentList[vh.absoluteAdapterPosition])
+        vh.binding.isBookmark?.setOnClickListener {
+            val item = currentList[vh.absoluteAdapterPosition]
+            val newItem = item.copy(isBookmark = !item.isBookmark)
+            val newList = currentList.toMutableList()
+            newList[vh.absoluteAdapterPosition] = newItem
+            submitList(newList)
+            click.invoke(newItem)
+            vh.binding.isBookmark.crossfade = if (newItem.isBookmark) 1f else 0f
         }
         return vh
     }

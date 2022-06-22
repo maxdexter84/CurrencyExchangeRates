@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/currencyFragment"
+        android:id="@+id/currencyFragment2"
         android:icon="@drawable/ic_baseline_format_list_bulleted_24"
         android:title="@string/title_currency_list" />
 
     <item
-        android:id="@+id/bookmarkFragment"
+        android:id="@+id/bookmarksFragment"
         android:icon="@drawable/ic_baseline_bookmarks_24"
         android:title="@string/title_bookmarks" />
 

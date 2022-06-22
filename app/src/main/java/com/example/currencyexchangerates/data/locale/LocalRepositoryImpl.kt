@@ -1,28 +1,39 @@
 package com.example.currencyexchangerates.data.locale
 
-import com.example.currencyexchangerates.data.locale.dao.CurrencyDao
+import com.example.currencyexchangerates.data.locale.dao.BookmarkDao
+import com.example.currencyexchangerates.data.model.map.mapToDatabaseBookmark
+import com.example.currencyexchangerates.data.model.map.mapToDomainBookmark
+import com.example.currencyexchangerates.domain.model.DomainBookmark
 import com.example.currencyexchangerates.domain.repository.LocalRepository
-import com.example.currencyexchangerates.ui.model.UICurrency
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 class LocalRepositoryImpl(
-    private val currencyDao: CurrencyDao
+    private val bookmarkDao: BookmarkDao,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LocalRepository {
-    //    override fun getData(): Flow<List<Currency>> {
-//        return currencyDao.getCurrencies().map { list -> list.map { it.mapToCurrency() } }
-//            .flowOn(Dispatchers.IO)
-//    }
-//
-//    override suspend fun saveData(currencies: List<Currency>) {
-//        withContext(Dispatchers.IO) {
-//            currencyDao.saveCurrency(currencies.map { it.mapToDBCurrency() })
-//        }
-//    }
-    override fun getData(): Flow<List<UICurrency>> {
-        TODO("Not yet implemented")
+
+    override fun getData(): Flow<List<DomainBookmark>> {
+        return bookmarkDao.getBookmarks().map { list -> list.map { it.mapToDomainBookmark() } }
+            .flowOn(dispatcher)
     }
 
-    override suspend fun saveData(currencies: List<UICurrency>) {
-        TODO("Not yet implemented")
+    override suspend fun saveBookmark(bookmark: DomainBookmark) {
+        withContext(dispatcher) {
+            bookmark.let {
+                bookmarkDao.saveBookmark(bookmark.mapToDatabaseBookmark())
+            }
+        }
     }
+
+    override suspend fun deleteBookmark(bookmark: DomainBookmark) {
+        withContext(dispatcher) {
+            bookmarkDao.deleteBookmark(bookmark.mapToDatabaseBookmark())
+        }
+    }
+
 }

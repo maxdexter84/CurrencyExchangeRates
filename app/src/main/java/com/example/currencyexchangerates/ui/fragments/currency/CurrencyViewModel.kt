@@ -1,22 +1,23 @@
 package com.example.currencyexchangerates.ui.fragments.currency
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.currencyexchangerates.AppPreferences
+import com.example.currencyexchangerates.domain.usecases.BookmarkUseCase
 import com.example.currencyexchangerates.domain.usecases.GetCurrenciesUseCase
-import com.example.currencyexchangerates.domain.usecases.SaveCurrenciesUseCase
-import com.example.currencyexchangerates.ui.map.convertToUICurrencyList
+import com.example.currencyexchangerates.ui.map.convertToUICurrency
+import com.example.currencyexchangerates.ui.map.mapToDomainBookmark
+import com.example.currencyexchangerates.ui.map.mapToUIBookmark
+import com.example.currencyexchangerates.ui.model.UIBookmark
 import com.example.currencyexchangerates.ui.model.UICurrency
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.example.currencyexchangerates.ui.model.UIItemCurrency
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class CurrencyViewModel(
     private val getCurrenciesUseCase: GetCurrenciesUseCase,
-    private val saveCurrenciesUseCase: SaveCurrenciesUseCase,
+    private val bookmarkUseCase: BookmarkUseCase,
     private val prefs: AppPreferences
 ) : ViewModel() {
 
@@ -29,10 +30,13 @@ class CurrencyViewModel(
     private val _loadingState = MutableStateFlow(false)
     val loadingState = _error.asStateFlow()
 
+    private val _currencyBookmarkList = MutableStateFlow<List<UIBookmark>?>(null)
+    val currencyBookmarkList = _currencyBookmarkList.asStateFlow()
+
 
     init {
         startApp()
-
+        getBookmarks()
     }
 
     fun startApp() {
@@ -43,20 +47,33 @@ class CurrencyViewModel(
         loadData("RUB")
     }
 
-    private fun getLocalData() {
-//        viewModelScope.launch {
-//            getCurrenciesUseCase.getLocalData().collect {
-//                _currencyList.value = it
-//            }
-//        }
+    private fun getBookmarks() {
+        viewModelScope.launch {
+            bookmarkUseCase.getBookmarks().collect{list->
+                val res = list.map { it.mapToUIBookmark() }
+                _currencyBookmarkList.value = res
+            }
+        }
+    }
+
+
+    fun saveBookmark(item: UIItemCurrency){
+        viewModelScope.launch {
+            if (item.isBookmark){
+                bookmarkUseCase.saveBookmark(item.mapToDomainBookmark())
+            } else {
+                bookmarkUseCase.deleteBookmark(item.mapToDomainBookmark())
+            }
+
+        }
     }
 
     fun loadData(symbol: String) {
-        _loadingState.value = true
-        viewModelScope.launch(Dispatchers.IO) {
+       _loadingState.value = true
+        viewModelScope.launch {
             getCurrenciesUseCase.getRemoteData(symbol)
                 .map {
-                    it.convertToUICurrencyList()
+                    it.convertToUICurrency(_currencyBookmarkList.value)
                 }.onSuccess {
                     _currencyList.value = it
                     Log.i("UPLOAD_DATA_VIEWMODEL", "SUCSsESS")

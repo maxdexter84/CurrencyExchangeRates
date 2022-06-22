@@ -10,6 +10,6 @@ class DiffCallback : DiffUtil.ItemCallback<UIItemCurrency>() {
     }
 
     override fun areContentsTheSame(oldItem: UIItemCurrency, newItem: UIItemCurrency): Boolean {
-        return oldItem.value == newItem.value
+        return oldItem.value == newItem.value && oldItem.isBookmark == newItem.isBookmark
     }
 }

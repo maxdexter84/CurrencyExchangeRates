@@ -42,6 +42,6 @@ object CurrencyApi {
     val currencyService: ICurrencyApi by lazy {
         retrofit.create(ICurrencyApi::class.java)
     }
-    const val KEY = "QBPrAw8APTk5oQDt8OnRlbCM00LamJdX"
+    const val KEY = "FH3rZC4FpCrYj99uTvnYA0A86O5g3qhe"
 }
 

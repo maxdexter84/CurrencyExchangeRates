@@ -1,22 +1,17 @@
 package com.example.currencyexchangerates.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.navigation.NavHost
+import androidx.navigation.ui.setupWithNavController
 import com.example.currencyexchangerates.App
 import com.example.currencyexchangerates.AppPreferences
 import com.example.currencyexchangerates.R
-import com.example.currencyexchangerates.data.model.Rates
-import com.example.currencyexchangerates.data.worker.CurrencyLoadWorker
 import com.example.currencyexchangerates.databinding.ActivityMainBinding
-import com.example.currencyexchangerates.ui.fragments.currency.CurrencyFragment
-import java.util.concurrent.TimeUnit
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     private val prefs: AppPreferences by lazy {
         App.preferences!!
@@ -35,8 +30,12 @@ class MainActivity : AppCompatActivity() {
 //            ).state.observe(this, {
 //                Log.i("WORKER", it.toString())
 //            })
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, CurrencyFragment.newInstance()).commit()
+        val navHost = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHost
+        val navView: BottomNavigationView = binding.bottomNav
+
+        val navController = navHost.navController
+        navView.setupWithNavController(navController)
+
 
     }
 
