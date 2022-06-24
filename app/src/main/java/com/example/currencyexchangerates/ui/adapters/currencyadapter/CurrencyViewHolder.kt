@@ -1,4 +1,4 @@
-package com.example.currencyexchangerates.ui.adapters
+package com.example.currencyexchangerates.ui.adapters.currencyadapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

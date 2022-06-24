@@ -1,6 +1,5 @@
 package com.example.currencyexchangerates.data.remote
 
-import android.util.Log
 import com.example.currencyexchangerates.data.model.map.convertFromRatesToMap
 import com.example.currencyexchangerates.data.model.map.convertToHashMap
 import com.example.currencyexchangerates.domain.model.Currency
@@ -8,12 +7,16 @@ import com.example.currencyexchangerates.domain.repository.RemoteRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class RemoteRepositoryImpl(private val api: ICurrencyApi, private val dispatcher: CoroutineDispatcher = Dispatchers.IO) : RemoteRepository {
+class RemoteRepositoryImpl @Inject constructor(
+    private val api: ICurrencyApi,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) : RemoteRepository {
 
     override suspend fun getCurrencyList(symbol: String): Result<Currency> {
         return runCatching {
-            withContext(dispatcher){
+            withContext(dispatcher) {
                 val dto = api.getCurrencyList(symbol)
                 val symb = api.getSymbols()
                 Currency(
@@ -25,10 +28,8 @@ class RemoteRepositoryImpl(private val api: ICurrencyApi, private val dispatcher
             }
         }.onSuccess {
             Result.success(it)
-            Log.i("UPLOAD_DATA_REPOSITORY", "SUCSsESS")
         }.onFailure {
             Result.failure<Throwable>(it)
-            Log.i("UPLOAD_DATA_REPOSITORY", it.message.toString())
         }
     }
 }

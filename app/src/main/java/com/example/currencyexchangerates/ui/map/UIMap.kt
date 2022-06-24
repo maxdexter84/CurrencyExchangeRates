@@ -23,10 +23,16 @@ private fun convertRatesMapToUIItemCurrency(
 
     return valueMap.map {
         var isBookmark = false
-        list?.forEach {bookmark ->
-            if (bookmark.base == base && bookmark.shortName == it.key ) isBookmark = true
+        list?.forEach { bookmark ->
+            if (bookmark.base == base && bookmark.shortName == it.key) isBookmark = true
         }
-        UIItemCurrency(base = base, it.key, symbolsMap[it.key] ?: "", it.value, isBookmark = isBookmark)
+        UIItemCurrency(
+            base = base,
+            it.key,
+            symbolsMap[it.key] ?: "",
+            it.value,
+            isBookmark = isBookmark
+        )
     }.toList()
 }
 
@@ -40,5 +46,10 @@ fun UIItemCurrency.mapToDomainBookmark(): DomainBookmark {
 }
 
 fun DomainBookmark.mapToUIBookmark(): UIBookmark {
-    return UIBookmark( shortName, base, name, value)
+    return UIBookmark(shortName, base, name, value)
 }
+
+fun UIBookmark.mapToDomainBookmark(): DomainBookmark {
+    return DomainBookmark(shortName, base, name, value)
+}
+

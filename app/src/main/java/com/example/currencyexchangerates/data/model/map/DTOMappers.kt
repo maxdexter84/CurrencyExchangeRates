@@ -27,5 +27,6 @@ fun Bookmark.mapToDomainBookmark(): DomainBookmark {
 }
 
 fun DomainBookmark.mapToDatabaseBookmark(): Bookmark {
-    return Bookmark("$base$shortName",shortName, base, name, value)
+    val id = "$base$shortName"
+    return Bookmark(id,shortName, base, name, value)
 }

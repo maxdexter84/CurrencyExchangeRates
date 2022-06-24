@@ -6,15 +6,15 @@ import com.example.currencyexchangerates.data.model.map.mapToDomainBookmark
 import com.example.currencyexchangerates.domain.model.DomainBookmark
 import com.example.currencyexchangerates.domain.repository.LocalRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class LocalRepositoryImpl(
+class LocalRepositoryImpl @Inject constructor(
     private val bookmarkDao: BookmarkDao,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher
 ) : LocalRepository {
 
     override fun getData(): Flow<List<DomainBookmark>> {

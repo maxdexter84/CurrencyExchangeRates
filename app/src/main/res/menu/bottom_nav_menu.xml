@@ -10,10 +10,4 @@
         android:id="@+id/bookmarksFragment"
         android:icon="@drawable/ic_baseline_bookmarks_24"
         android:title="@string/title_bookmarks" />
-
-    <item
-        android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="@string/title_settings" />
-
 </menu>

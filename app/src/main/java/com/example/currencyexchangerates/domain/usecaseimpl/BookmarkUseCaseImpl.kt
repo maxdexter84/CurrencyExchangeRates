@@ -4,8 +4,9 @@ import com.example.currencyexchangerates.domain.model.DomainBookmark
 import com.example.currencyexchangerates.domain.repository.LocalRepository
 import com.example.currencyexchangerates.domain.usecases.BookmarkUseCase
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class BookmarkUseCaseImpl(private val repository: LocalRepository) : BookmarkUseCase {
+class BookmarkUseCaseImpl @Inject constructor(private val repository: LocalRepository) : BookmarkUseCase {
     override suspend fun saveBookmark(bookmark: DomainBookmark) {
         repository.saveBookmark(bookmark)
     }
@@ -15,6 +16,6 @@ class BookmarkUseCaseImpl(private val repository: LocalRepository) : BookmarkUse
     }
 
     override fun getBookmarks(): Flow<List<DomainBookmark>> {
-       return repository.getData()
+        return repository.getData()
     }
 }

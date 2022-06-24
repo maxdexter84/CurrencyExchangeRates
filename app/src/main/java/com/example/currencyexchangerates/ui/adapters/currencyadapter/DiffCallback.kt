@@ -1,7 +1,6 @@
-package com.example.currencyexchangerates.ui.adapters
+package com.example.currencyexchangerates.ui.adapters.currencyadapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.currencyexchangerates.ui.model.UICurrency
 import com.example.currencyexchangerates.ui.model.UIItemCurrency
 
 class DiffCallback : DiffUtil.ItemCallback<UIItemCurrency>() {
